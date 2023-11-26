@@ -1,7 +1,7 @@
 %%
 % LBYCPA4 - Final Project
 
-%% Template Letters
+%% Template Letters (To be compared with the input)
 % Alphabets
 A=imread('alpha/A.bmp');
 B=imread('alpha/B.bmp');
@@ -77,7 +77,9 @@ maxa = Iprops.Area;
 count = numel(Iprops);
 boundingBox = Iprops.BoundingBox;
 
-for i=1:count
+% Find which objects detected is a license plate based on the sizes of the
+% objects
+for i=1:count 
    if (maxa < Iprops(i).Area && ...
            ((Iprops(i).BoundingBox(3) > 2.5*Iprops(i).BoundingBox(4)) && ...
            (Iprops(i).BoundingBox(3) < 3*Iprops(i).BoundingBox(4))))
@@ -91,16 +93,19 @@ figure(1);subplot(3,2,4);imshow(im);
 title("Extracted License Plate");
 
 %% Character Extraction
+% Remove parts of the image that has less than 64 pixels connected with
+% each other
 im = bwareaopen(~im, 64);
 [h, w] = size(im);
 
-im = imerode(im,strel("square",2));
 figure(1);subplot(3,2,5);imshow(im);
+title("Inverted and Reduced License Plate");
+
+im = imerode(im,strel("square",2));
+figure(1);subplot(3,2,6);imshow(im);
 title("Eroded License Plate");
 
-figure(1);subplot(3,2,6);imshow(im);
-title("Inverted and Reduced License Plate")
-
+% Start to extract each number
 Iprops = regionprops(im,'BoundingBox','Area', 'Image');
 
 count = numel(Iprops);
@@ -128,7 +133,7 @@ for i=2:count
     elseif ind==2
         letter='B';
     elseif ind==3
-        letter='C'
+        letter='C';
     elseif ind==4
         letter='D';
     elseif ind==5
