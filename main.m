@@ -108,25 +108,41 @@ title("Eroded License Plate");
 % Start to extract each number
 Iprops = regionprops(im,'BoundingBox','Area', 'Image');
 
-count = numel(Iprops);
+count = 1;
+for i=2:numel(Iprops)
+    if (Iprops(i).Area>100) && (count<=7)
+        iprops_boundingbox(count).Area = Iprops(i).Area;
+        iprops_boundingbox(count).BoundingBox = Iprops(i).BoundingBox;
+        iprops_boundingbox(count).Image = Iprops(i).Image;
+        count = count+1;
+    end
+end
+
 noPlate=[];
 
 figure(2);
-
-for i=2:count
-    let = imcrop(im, Iprops(i).BoundingBox);
+for i=1:numel(iprops_boundingbox)
+    let = imcrop(im, iprops_boundingbox(i).BoundingBox);
     let = imresize(let, [42 24]);
 
-    subplot(1,7,i-1);imshow(let);
+    subplot(1,7,i);imshow(let);
     
     rec = [ ];
 
-    for n=1:length(alphanum)
-        cor = corr2(alphanum{n}, let);
-        rec = [rec cor];
+    if i<=3
+        for n=1:length(alphanum(1:26))
+            cor = corr2(alphanum{n}, let);
+            rec = [rec cor];
+        end
+        ind = find(rec == max(rec));
+    else
+        for n=27:36
+            cor = corr2(alphanum{n}, let);
+            rec = [rec cor];
+        end
+        ind = find([zeros(1,26) rec] == max([zeros(1,26) rec]));
     end
-
-    ind = find(rec == max(rec));
+   
     
     if ind==1
         letter='A';
