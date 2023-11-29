@@ -142,7 +142,6 @@ for i=1:numel(iprops_boundingbox)
         end
         ind = find([zeros(1,26) rec] == max([zeros(1,26) rec]));
     end
-   
     
     if ind==1
         letter='A';

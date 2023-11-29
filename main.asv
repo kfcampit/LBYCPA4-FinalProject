@@ -51,7 +51,7 @@ number = {one two three four five six seven eight nine zero};
 alphanum = [letter number];
 
 %% Load Image
-fileName = "testlp3.jpg";
+fileName = "testlp2.jpg";
 im = imread(fileName);
 im = imresize(im, [512 512]);
 
@@ -108,19 +108,21 @@ title("Eroded License Plate");
 % Start to extract each number
 Iprops = regionprops(im,'BoundingBox','Area', 'Image');
 
-count = numel(Iprops);
-
+count = 1;
 for i=2:numel(Iprops)
-    if Iprops(i).Area>100
-        iprops_boundingbox = [iprops_boundingbox Iprops.BoundingBox];
+    if (Iprops(i).Area>100) && (count<=7)
+        iprops_boundingbox(count).Area = Iprops(i).Area;
+        iprops_boundingbox(count).BoundingBox = Iprops(i).BoundingBox;
+        iprops_boundingbox(count).Image = Iprops(i).Image;
+        count = count+1;
     end
 end
 
 noPlate=[];
 
 figure(2);
-for i=1:length(iprops_boundingbox)
-    let = imcrop(im, iprops_boundingbox(i));
+for i=1:numel(iprops_boundingbox)
+    let = imcrop(im, iprops_boundingbox(i).BoundingBox);
     let = imresize(let, [42 24]);
 
     subplot(1,7,i);imshow(let);
@@ -140,7 +142,6 @@ for i=1:length(iprops_boundingbox)
         end
         ind = find([zeros(1,26) rec] == max([zeros(1,26) rec]));
     end
-   
     
     if ind==1
         letter='A';
