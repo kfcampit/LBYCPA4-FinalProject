@@ -24,7 +24,7 @@ for i = 0:35
     curr_char_bin = imcrop(curr_char_bin, Iprops.BoundingBox);
     curr_char_bin = imresize(curr_char_bin, [42 24]);
     
-    figure(i+10);imshow(curr_char_bin);
+    %figure(i+10);imshow(curr_char_bin);
     
     disp(i);
     if(i<10)
@@ -34,57 +34,10 @@ for i = 0:35
     end
 end
 
-%% Template Letters (To be compared with the input)
-% Alphabets
-%A=imread('phfont/10.jpg');
-%B=imread('phfont/11.jpg');
-%C=imread('phfont/12.jpg');
-%D=imread('phfont/13.jpg');
-%E=imread('phfont/14.jpg');
-%F=imread('phfont/15.jpg');
-%G=imread('phfont/16.jpg');
-%H=imread('phfont/17.jpg');
-%I=imread('phfont/18.jpg');
-%J=imread('phfont/19.jpg');
-%K=imread('phfont/20.jpg');
-%L=imread('phfont/21.jpg');
-%M=imread('phfont/22.jpg');
-%N=imread('phfont/23.jpg');
-%O=imread('phfont/24.jpg');
-%P=imread('phfont/25.jpg');
-%Q=imread('phfont/26.jpg');
-%R=imread('phfont/27.jpg');
-%S=imread('phfont/28.jpg');
-%T=imread('phfont/29.jpg');
-%U=imread('phfont/30.jpg');
-%V=imread('phfont/31.jpg');
-%W=imread('phfont/32.jpg');
-%X=imread('phfont/33.jpg');
-%Y=imread('phfont/34.jpg');
-%Z=imread('phfont/35.jpg');
-
-% Natural Numbers
-%one=imread('phfont/1.jpg');
-%two=imread('phfont/2.jpg');
-%three=imread('phfont/3.jpg');
-%four=imread('phfont/4.jpg');
-%five=imread('phfont/5.jpg');
-%six=imread('phfont/6.jpg');
-%seven=imread('phfont/7.jpg');
-%eight=imread('phfont/8.jpg');
-%nine=imread('phfont/9.jpg');
-%zero=imread('phfont/0.jpg');
-
-% Creating Array for Alphabets
-%letter = {A B C D E F G H I J K L M N O P Q R S T U V W X Y Z};
-
-% Creating Array for Numbers
-%number = {one two three four five six seven eight nine zero};
-
 alphanum = [letter number];
 
 %% Load Image
-fileName = "testlp2.jpg";
+fileName = "testlp3.jpg";
 im = imread(fileName);
 im = imresize(im, [512 512]);
 
