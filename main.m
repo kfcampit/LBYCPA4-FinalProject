@@ -1,6 +1,8 @@
 %%
 % LBYCPA4 - Final Project
 
+clear;clc;
+
 %% Convert template characters from jpg to bmp
 for i = 0:35
     % Load Image
@@ -36,7 +38,11 @@ end
 alphanum = [letter number];
 
 %% Load Image
+<<<<<<< Updated upstream
 fileName = "testlp9.jpg";
+=======
+fileName = "testlp1.jpg";
+>>>>>>> Stashed changes
 im = imread(fileName);
 im = imresize(im, [512 512]);
 
