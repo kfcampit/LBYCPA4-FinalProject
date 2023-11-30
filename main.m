@@ -25,8 +25,7 @@ for i = 0:35
     curr_char_bin = imresize(curr_char_bin, [42 24]);
     
     %figure(i+10);imshow(curr_char_bin);
-    
-    disp(i);
+
     if(i<10)
         number{i+1} = curr_char_bin;
     else
@@ -37,7 +36,7 @@ end
 alphanum = [letter number];
 
 %% Load Image
-fileName = "testlp3.jpg";
+fileName = "testlp9.jpg";
 im = imread(fileName);
 im = imresize(im, [512 512]);
 
