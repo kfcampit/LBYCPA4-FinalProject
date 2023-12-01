@@ -38,11 +38,7 @@ end
 alphanum = [letter number];
 
 %% Load Image
-<<<<<<< Updated upstream
 fileName = "testlp28.jpg";
-=======
-fileName = "testlp1.jpg";
->>>>>>> Stashed changes
 im = imread(fileName);
 im = imresize(im, [512 512]);
 
