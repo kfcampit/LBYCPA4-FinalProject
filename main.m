@@ -39,7 +39,7 @@ alphanum = [letter number];
 
 %% Load Image
 <<<<<<< Updated upstream
-fileName = "testlp9.jpg";
+fileName = "testlp28.jpg";
 =======
 fileName = "testlp1.jpg";
 >>>>>>> Stashed changes
