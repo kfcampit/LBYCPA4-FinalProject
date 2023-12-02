@@ -38,7 +38,7 @@ end
 alphanum = [letter number];
 
 %% Load Image
-fileName = "testlp28.jpg";
+fileName = "testlp3.jpg";
 im = imread(fileName);
 im = imresize(im, [512 512]);
 
@@ -66,10 +66,28 @@ boundingBox = Iprops.BoundingBox;
 
 % Find which objects detected is a license plate based on the sizes of the
 % objects
+%biggestArea = 0;
 for i=1:count 
+   % The ratio between width and height is to be compared at a certain
+   % range since the ratio of the standard lp is between 2.7 and 2.8
+   %lpratio = Iprops(i).BoundingBox(3)/Iprops(i).BoundingBox(4);
+   %if(lpratio>2.7 && lpratio<2.8)
+   %    maxa=Iprops(i).Area;
+   %    boundingBox=Iprops(i).BoundingBox; 
+   %end
+    
+   % When minimal noise is detected, the one with the biggest area is
+   % surely the lp
+   %if(biggestArea < Iprops(i).Area)
+   %    biggestArea = Iprops(i).Area;
+   %    maxa=Iprops(i).Area;
+   %    boundingBox=Iprops(i).BoundingBox; 
+   %end
+   
+   % Reduced the scale constants
    if (maxa < Iprops(i).Area && ...
-           ((Iprops(i).BoundingBox(3) > 2.5*Iprops(i).BoundingBox(4)) && ...
-           (Iprops(i).BoundingBox(3) < 3*Iprops(i).BoundingBox(4))))
+           ((Iprops(i).BoundingBox(3) > 2.6*Iprops(i).BoundingBox(4)) && ...
+           (Iprops(i).BoundingBox(3) < 2.8*Iprops(i).BoundingBox(4))))
         maxa=Iprops(i).Area;
         boundingBox=Iprops(i).BoundingBox;
    end
