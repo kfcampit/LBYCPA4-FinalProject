@@ -4,11 +4,12 @@
 clear;clc;
 
 %% Convert template characters from jpg to bmp
+
 for i = 0:35
     % Load Image
     filename = strcat(strcat('phfont/',int2str(i)),'.jpg');
     curr_char = imread(filename);
-    curr_char = imresize(curr_char, [42 24]);
+    curr_char = imresize(curr_char, [42 24]);   
 
     % Convert to Grayscale
     curr_char_gray = rgb2gray(curr_char);
@@ -37,8 +38,10 @@ end
 
 alphanum = [letter number];
 
+img=alphanum{1};
+
 %% Load Image
-fileName = "testlp4.png";
+fileName = "testlp9.jpg";
 im = imread(fileName);
 im = imresize(im, [512 512]);
 
@@ -64,12 +67,14 @@ maxa = Iprops.Area;
 count = numel(Iprops);
 boundingBox = Iprops.BoundingBox;
 
-% Find which objects detected is a license plate based on the sizes of the
-% objects
+% Find which objects detected is a license plate based 
+% on the sizes of the objects
 for i=1:count 
    if (maxa < Iprops(i).Area && ...
-           ((Iprops(i).BoundingBox(3) > 2.5*Iprops(i).BoundingBox(4)) && ...
-           (Iprops(i).BoundingBox(3) < 3*Iprops(i).BoundingBox(4))))
+           ((Iprops(i).BoundingBox(3) > ...
+           2*Iprops(i).BoundingBox(4)) && ...
+           (Iprops(i).BoundingBox(3) < ...
+           3.5*Iprops(i).BoundingBox(4))))
         maxa=Iprops(i).Area;
         boundingBox=Iprops(i).BoundingBox;
    end
@@ -86,18 +91,21 @@ im = bwareaopen(~im, 64);
 [h, w] = size(im);
 
 figure(1);subplot(3,2,5);imshow(im);
-title("Inverted and Reduced License Plate");
+title("Inverted License Plate");
 
 im = imerode(im,strel("square",2));
 figure(1);subplot(3,2,6);imshow(im);
 title("Eroded License Plate");
 
-% Start to extract each number
+im = imresize(im, [200 540]);
+
+% Start to extract each character
 Iprops = regionprops(im,'BoundingBox','Area', 'Image');
 
+
 count = 1;
-for i=2:numel(Iprops)
-    if (Iprops(i).Area>100) && (count<=7)
+for i=1:numel(Iprops)
+    if (Iprops(i).Area>900) && (Iprops(i).Area<3500) && (count<=7)
         iprops_boundingbox(count).Area = Iprops(i).Area;
         iprops_boundingbox(count).BoundingBox = Iprops(i).BoundingBox;
         iprops_boundingbox(count).Image = Iprops(i).Image;
@@ -112,7 +120,7 @@ for i=1:numel(iprops_boundingbox)
     let = imcrop(im, iprops_boundingbox(i).BoundingBox);
     let = imresize(let, [42 24]);
 
-    subplot(1,7,i);imshow(let);
+    subplot(2,7,i);imshow(let);
     
     rec = [ ];
 
@@ -129,6 +137,8 @@ for i=1:numel(iprops_boundingbox)
         end
         ind = find([zeros(1,26) rec] == max([zeros(1,26) rec]));
     end
+
+    subplot(2,7,7+i);imshow(alphanum{ind});
     
     if ind==1
         letter='A';
